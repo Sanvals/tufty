@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tufty’s Spell Reference</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdfaf7;
+      color: #333;
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      font-size: 1.6em;
+      color: #a26ba9;
+    }
+    select {
+      display: block;
+      margin: 1em auto;
+      padding: 8px;
+      font-size: 1em;
+    }
+    .spell-details {
+      background-color: #fffdfc;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .spell-details h2 {
+      color: #5d3b69;
+      margin-top: 0;
+    }
+    footer {
+      font-size: 0.8em;
+      text-align: center;
+      margin-top: 2em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧵 Tufty’s Spellbook 📜</h1>
+
+  <label for="spell-select">Choose a spell:</label>
+  <select id="spell-select">
+    <option value="soothe">Soothe</option>
+    <!-- Add more spells here later -->
+  </select>
+
+  <label for="level-select">Choose a level:</label>
+  <select id="level-select"></select>
+
+  <div class="spell-details" id="spell-output"></div>
+
+  <footer>
+    By Royal Decree of the Princess of Twinklelight ✨
+  </footer>
+
+  <script>
+    const spells = {
+      soothe: {
+        name: "Soothe",
+        levels: {
+          1: { healing: "1d10 + 4", bonus: "+1", duration: "1 round" },
+          2: { healing: "2d10 + 8", bonus: "+1", duration: "1 round" },
+          3: { healing: "3d10 + 16", bonus: "+2", duration: "1 round" },
+          4: { healing: "4d10 + 24", bonus: "+2", duration: "1 round" },
+          5: { healing: "5d10 + 32", bonus: "+2", duration: "1 round" },
+          6: { healing: "6d10 + 40", bonus: "+3", duration: "1 round" },
+          7: { healing: "7d10 + 48", bonus: "+3", duration: "1 round" },
+          8: { healing: "8d10 + 56", bonus: "+3", duration: "1 round" },
+          9: { healing: "9d10 + 64", bonus: "+4", duration: "1 round" },
+          10: { healing: "10d10 + 70", bonus: "+4", duration: "1 round" },
+        }
+      },
+    };
+
+    const spellSelect = document.getElementById("spell-select");
+    const levelSelect = document.getElementById("level-select");
+    const output = document.getElementById("spell-output");
+
+    function updateLevels() {
+      const spellKey = spellSelect.value;
+      const spell = spells[spellKey];
+
+      levelSelect.innerHTML = "";
+      Object.keys(spell.levels).forEach(level => {
+        const option = document.createElement("option");
+        option.value = level;
+        option.textContent = `Level ${level}`;
+        levelSelect.appendChild(option);
+      });
+      updateOutput();
+    }
+
+    function updateOutput() {
+      const spellKey = spellSelect.value;
+      const level = levelSelect.value;
+      const data = spells[spellKey].levels[level];
+      output.innerHTML = `
+        <h2>${spells[spellKey].name} (Level ${level})</h2>
+        <p><strong>Healing:</strong> ${data.healing}</p>
+        <p><strong>Mental Save Bonus:</strong> ${data.bonus}</p>
+        <p><strong>Duration:</strong> ${data.duration}</p>
+      `;
+    }
+
+    spellSelect.addEventListener("change", updateLevels);
+    levelSelect.addEventListener("change", updateOutput);
+
+    updateLevels();
