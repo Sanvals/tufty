@@ -76,11 +76,7 @@
   <h1>🧵 Tufty’s Spellbook</h1>
 
   <div id="spell-select-container">
-    <select id="spell-select">
-      <option value="soothe">Soothe</option>
-      <option value="needleDarts">Needle Darts</option>
-      <!-- Add more spells here -->
-    </select>
+    <select id="spell-select"></select>
     <select id="level-select"></select>
   </div>
 
@@ -119,6 +115,17 @@
     const spellSelect = document.getElementById("spell-select");
     const levelSelect = document.getElementById("level-select");
     const output = document.getElementById("spell-output");
+
+
+    function populateSpellSelect() {
+      Object.keys(spells).forEach(spellKey => {
+        const option = document.createElement("option");
+        option.value = spellKey;
+        option.textContent = spells[spellKey].name;
+        spellSelect.appendChild(option);
+      });
+    }
+    populateSpellSelect();
 
     function updateLevels() {
       const spellKey = spellSelect.value;
