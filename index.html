@@ -2,53 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Tufty’s Spell Reference</title>
+  <title>⭐ Tufty’s Spellbook</title>
   <style>
     :root {
       color-scheme: dark;
+      --spacing: 8px;
+      --radious: 8px;
+      box-sizing: content-box;
     }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #1f1f1f;
+      background-color: #191919;
       color: #f5f5f5;
-      padding: 10px;
-      max-width: 400px;
+      padding: 16px;
+      max-width: 420px;
       margin: auto;
     }
     h1 {
       text-align: center;
-      font-size: 1.2em;
+      font-size: 1.3em;
       color: #d7bfff;
-      margin-bottom: 0.5em;
+      margin-bottom: 0.8em;
     }
-    label, select {
-      display: block;
-      margin: 0.4em auto;
-      font-size: 0.9em;
+    h2 {
+      margin-top: 0px;
+    }
+    #spell-select-container {
+      display: flex;
+      flex-direction: row;
+      gap: var(--spacing)
     }
     select {
-      width: 100%;
-      padding: 6px;
-      background-color: #2b2b2b;
+      padding: 6px 8px;
+      padding-left: 15px;
+      background-color: #2a2a2a;
       color: #f5f5f5;
       border: 1px solid #444;
-      border-radius: 4px;
+      border-radius: var(--radious);
+      font-size: 0.9em;
+    }
+    select:first-child {
+      width: 70%;
+    }
+    select:last-child {
+      width: 30%;
     }
     .spell-details {
-      background-color: #2b2b2b;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 12px;
-      margin-top: 1em;
+      background-color: #222;
+      border: 1px solid #333;
+      border-radius: var(--radious);
+      padding: 12px 14px;
+      margin-top: var(--spacing);
     }
     .spell-details h2 {
       color: #d7bfff;
       font-size: 1em;
-      margin-top: 0;
+      margin-bottom: 0.5em;
     }
     .spell-details p {
-      margin: 4px 0;
-      font-size: 0.9em;
+      margin: 2px 0;
+      font-size: 0.88em;
+      color: #ddd;
     }
     footer {
       font-size: 0.7em;
@@ -61,14 +75,14 @@
 <body>
   <h1>🧵 Tufty’s Spellbook</h1>
 
-  <label for="spell-select">Spell:</label>
-  <select id="spell-select">
-    <option value="soothe">Soothe</option>
-    <!-- Add more spells here later -->
-  </select>
-
-  <label for="level-select">Level:</label>
-  <select id="level-select"></select>
+  <div id="spell-select-container">
+    <select id="spell-select">
+      <option value="soothe">Soothe</option>
+      <option value="telekineticProjectile">Telekinetic Projectile</option>
+      <!-- Add more spells here -->
+    </select>
+    <select id="level-select"></select>
+  </div>
 
   <div class="spell-details" id="spell-output"></div>
 
@@ -81,18 +95,21 @@
       soothe: {
         name: "Soothe",
         levels: {
-          1: { healing: "1d10 + 4", bonus: "+1", duration: "1 round" },
-          2: { healing: "2d10 + 8", bonus: "+1", duration: "1 round" },
-          3: { healing: "3d10 + 16", bonus: "+2", duration: "1 round" },
-          4: { healing: "4d10 + 24", bonus: "+2", duration: "1 round" },
-          5: { healing: "5d10 + 32", bonus: "+2", duration: "1 round" },
-          6: { healing: "6d10 + 40", bonus: "+3", duration: "1 round" },
-          7: { healing: "7d10 + 48", bonus: "+3", duration: "1 round" },
-          8: { healing: "8d10 + 56", bonus: "+3", duration: "1 round" },
-          9: { healing: "9d10 + 64", bonus: "+4", duration: "1 round" },
-          10: { healing: "10d10 + 70", bonus: "+4", duration: "1 round" },
+          1: { "🩹 Healing": "1d10 + 10", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet" },
+          2: { "🩹 Healing": "2d10 + 15", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  },
+          3: { "🩹 Healing": "3d10 + 20", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  },
+          4: { "🩹 Healing": "4d10 + 25", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  },
+          5: { "🩹 Healing": "5d10 + 30", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  }
         }
       },
+      telekineticProjectile: {
+        name: "Telekinetic Projectile",
+        levels: {
+          1: { "Damage": "1d6 + Spellcasting Modifier", "Range": "30 feet", "Damage Type": "Bludgeoning, Slashing, or Piercing" },
+          2: { "Damage": "2d6 + Spellcasting Modifier", "Range": "30 feet", "Damage Type": "Same as above" },
+        }
+      },
+      // Add more spells here
     };
 
     const spellSelect = document.getElementById("spell-select");
@@ -116,19 +133,19 @@
     function updateOutput() {
       const spellKey = spellSelect.value;
       const level = levelSelect.value;
-      const data = spells[spellKey].levels[level];
+      const spell = spells[spellKey];
+      const details = spell.levels[level];
+
       output.innerHTML = `
-        <h2>${spells[spellKey].name} (Level ${level})</h2>
-        <p><strong>Healing:</strong> ${data.healing}</p>
-        <p><strong>Mental Save Bonus:</strong> ${data.bonus}</p>
-        <p><strong>Duration:</strong> ${data.duration}</p>
+        <h2>${spell.name} (Level ${level})</h2>
+        ${Object.entries(details).map(([key, value]) => `<p><strong>${key}:</strong> ${value}</p>`).join("")}
       `;
     }
 
     spellSelect.addEventListener("change", updateLevels);
     levelSelect.addEventListener("change", updateOutput);
 
-    updateLevels();
+    updateLevels(); // initial render
   </script>
 </body>
 </html>
