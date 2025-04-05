@@ -78,7 +78,7 @@
   <div id="spell-select-container">
     <select id="spell-select">
       <option value="soothe">Soothe</option>
-      <option value="telekineticProjectile">Telekinetic Projectile</option>
+      <option value="needleDarts">Needle Darts</option>
       <!-- Add more spells here -->
     </select>
     <select id="level-select"></select>
@@ -96,17 +96,21 @@
         name: "Soothe",
         levels: {
           1: { "🩹 Healing": "1d10 + 10", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet" },
-          2: { "🩹 Healing": "2d10 + 15", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  },
-          3: { "🩹 Healing": "3d10 + 20", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  },
-          4: { "🩹 Healing": "4d10 + 25", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  },
-          5: { "🩹 Healing": "5d10 + 30", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet"  }
+          2: { "🩹 Healing": "2d10 + 15", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet" },
+          3: { "🩹 Healing": "3d10 + 20", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet" },
+          4: { "🩹 Healing": "4d10 + 25", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet" },
+          5: { "🩹 Healing": "5d10 + 30", "🧠 Mental Save Bonus": "+2", "⌛ Duration": "1 minute", "📏 Range": "30 feet" }
         }
       },
-      telekineticProjectile: {
-        name: "Telekinetic Projectile",
+      needleDarts: {
+        name: "Needle Darts",
         levels: {
-          1: { "Damage": "1d6 + Spellcasting Modifier", "Range": "30 feet", "Damage Type": "Bludgeoning, Slashing, or Piercing" },
-          2: { "Damage": "2d6 + Spellcasting Modifier", "Range": "30 feet", "Damage Type": "Same as above" },
+          5: { 
+            "🪡 Damage": "7d4 + Spellcasting Modifier", 
+            "👁️ Effect": "The material of the needles can be modified",
+            "⭐ Critical Success": "The target takes double damage and 5 persistent bleed damage",
+            "📏 Range": "60 feet"
+          }
         }
       },
       // Add more spells here
